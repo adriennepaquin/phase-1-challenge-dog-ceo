@@ -9,6 +9,8 @@ getBreeds()
 let breedList = document.querySelector('ul')
 breedList.addEventListener('click', (e) => turnBlue(e.target.id))
 
+const breedDropdown = document.querySelector('#breed-dropdown')
+breedDropdown.addEventListener('change', e => filterAlpha(e.target.value))
 
 function getImages(){
     fetch(imgUrl)
@@ -23,10 +25,14 @@ function renderImage(url){
     div.append(image)
 }
 
+let breedData;
 function getBreeds() {
-    fetch(breedUrl)
+    return fetch(breedUrl)
     .then(respon => respon.json())
-    .then(data => Object.keys(data.message).forEach(renderBreed))
+    .then(data => {
+        breedData = Object.keys(data.message)
+        breedData.forEach(renderBreed)
+    })
 }
 
 function renderBreed(breed) {
@@ -38,4 +44,10 @@ function renderBreed(breed) {
 
 function turnBlue(id){
     document.querySelector(`#${id}`).style.color = "blue"
+}
+
+function filterAlpha(letter) {
+    let filteredDogs = breedData.filter(breed => breed[0] === letter);
+    breedList.innerHTML = "";
+    filteredDogs.forEach(renderBreed);
 }
