@@ -1,16 +1,19 @@
 console.log('%c HI', 'color: firebrick')
 const imgUrl = "https://dog.ceo/api/breeds/image/random/4"
-const breedUrl = 'https://dog.ceo/api/breeds/list/all' 
+const breedUrl = 'https://dog.ceo/api/breeds/list/all'
 
-document.addEventListener('DOMContentLoaded', getImages)
-document.addEventListener('DOMContentLoaded', getBreeds)
+
+getImages()
+getBreeds()
+
+let breedList = document.querySelector('ul')
+breedList.addEventListener('click', (e) => turnBlue(e.target.id))
+
 
 function getImages(){
     fetch(imgUrl)
     .then(resp => resp.json())
-    //.then(data => renderImages(data.message))
     .then(data => data.message.forEach(renderImage))
-    
 }
 
 function renderImage(url){
@@ -29,6 +32,10 @@ function getBreeds() {
 function renderBreed(breed) {
     let li = document.createElement('li');
     li.textContent = breed;
-    let ul = document.querySelector('#dog-breeds')
-    ul.append(li)
+    li.id = breed
+    breedList.append(li)
+}
+
+function turnBlue(id){
+    document.querySelector(`#${id}`).style.color = "blue"
 }
