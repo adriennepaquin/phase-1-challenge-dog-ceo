@@ -20,3 +20,15 @@ function renderImage(url){
     div.append(image)
 }
 
+function getBreeds() {
+    fetch(breedUrl)
+    .then(respon => respon.json())
+    .then(data => Object.keys(data.message).forEach(renderBreed))
+}
+
+function renderBreed(breed) {
+    let li = document.createElement('li');
+    li.textContent = breed;
+    let ul = document.querySelector('#dog-breeds')
+    ul.append(li)
+}
